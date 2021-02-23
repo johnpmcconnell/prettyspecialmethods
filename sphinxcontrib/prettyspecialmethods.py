@@ -10,8 +10,9 @@
 
 import pbr.version
 import sphinx.addnodes as SphinxNodes
-from docutils.nodes import Text, emphasis, inline
+from sphinx.directives import SphinxDirective
 from sphinx.transforms import SphinxTransform
+from docutils.nodes import Text, emphasis, inline, pending
 
 if False:
     # For type annotations
@@ -186,12 +187,26 @@ SPECIAL_METHODS = {
 }
 
 
+class PendingSelfParamName(pending):
+    def __init__(self, name):
+        # type: (str) -> None
+        super().__init__(
+            transform=PrettifySpecialMethods,
+            details={'self_param': name},
+        )
+
+    @property
+    def name(self):
+        # type: () -> str
+        return self.details['self_param']
+
+
 class PrettifySpecialMethods(SphinxTransform):
     default_priority = 800
 
     def apply(self):
         methods = (
-            sig for sig in self.document.traverse(SphinxNodes.desc_signature)
+            sig.parent for sig in self.document.traverse(SphinxNodes.desc_signature)
             if 'class' in sig
         )
 
@@ -200,10 +215,29 @@ class PrettifySpecialMethods(SphinxTransform):
             method_name = name_node.astext()
 
             if method_name in SPECIAL_METHODS:
+                # Determine name to use for self in new specification
+                # using first child occurence
+                pending_self_param = ref.next_node(PendingSelfParamName)
+                self_param = pending_self_param.name if pending_self_param else 'self'
+
                 parameters_node = ref.next_node(SphinxNodes.desc_parameterlist)
 
-                name_node.replace_self(SPECIAL_METHODS[method_name](name_node, parameters_node, 'self'))
+                new_sig = SPECIAL_METHODS[method_name](name_node, parameters_node, self_param)
+
+                name_node.replace_self(new_sig)
                 parameters_node.replace_self(())
+
+        # Remove ALL occurrences of PendingSelfParamName
+        for p in self.document.traverse(PendingSelfParamName):
+            p.replace_self(())
+
+
+class RenameSelfParamDirective(SphinxDirective):
+    required_arguments = 1
+    has_content = False
+
+    def run(self):
+        return [PendingSelfParamName(self.arguments[0])]
 
 
 def show_special_methods(app, what, name, obj, skip, options):
@@ -214,6 +248,7 @@ def show_special_methods(app, what, name, obj, skip, options):
 def setup(app):
     # type: (Sphinx) -> Dict[str, Any]
     app.add_transform(PrettifySpecialMethods)
+    app.add_directive('renameself', RenameSelfParamDirective)
     app.setup_extension('sphinx.ext.autodoc')
     app.connect('autodoc-skip-member', show_special_methods)
     return {'version': __version__, 'parallel_read_safe': True}

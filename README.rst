@@ -28,6 +28,7 @@ as
 self + other
     Docstring
 
+It also works when using autodoc on a class that implements these methods.
 
 After installing this module, add the following to your `conf.py` to enable it
 
@@ -37,6 +38,23 @@ After installing this module, add the following to your `conf.py` to enable it
         ...  # your other extensions
         'sphinxcontrib.prettyspecialmethods',
     ]
+
+Changing "self"
+---------------
+
+The directive `renameself` is included in the docstring, its argument will be used
+in place of "self" in the output:
+
+.. code-block:: rst
+
+    .. method:: __add__(other)
+        Docstring
+        .. renameself:: obj
+
+renders to
+
+obj + other
+    Docstring
 
 
 Links
