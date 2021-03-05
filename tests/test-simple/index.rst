@@ -1,119 +1,119 @@
 # misc (alphabetical)
 
-.. py:method:: __await__()
+.. py:specialmethod:: __await__()
 
-.. py:method:: __call__(*args, **kwargs)
+.. py:specialmethod:: __call__(*args, **kwargs)
 
-.. py:method:: __dir__()
+.. py:specialmethod:: __dir__()
 
-.. py:method:: __format__(fmt)
+.. py:specialmethod:: __format__(fmt)
 
-.. py:method:: __hash__()
+.. py:specialmethod:: __hash__()
 
-.. py:method:: __repr__()
+.. py:specialmethod:: __repr__()
 
-.. py:method:: __sizeof__()
+.. py:specialmethod:: __sizeof__()
 
 # type coercion
 
-.. py:method:: __str__()
+.. py:specialmethod:: __str__()
 
-.. py:method:: __bytes__()
+.. py:specialmethod:: __bytes__()
 
-.. py:method:: __bool__()
+.. py:specialmethod:: __bool__()
 
-.. py:method:: __int__()
+.. py:specialmethod:: __int__()
 
-.. py:method:: __float__()
+.. py:specialmethod:: __float__()
 
-.. py:method:: __complex__()
+.. py:specialmethod:: __complex__()
 
-.. py:method:: __index__()
+.. py:specialmethod:: __index__()
 
 # attribute access
 
-.. py:method:: __getattr__(attr)
+.. py:specialmethod:: __getattr__(attr)
 
-.. py:method:: __setattr__(attr, value)
+.. py:specialmethod:: __setattr__(attr, value)
 
-.. py:method:: __delattr__(attr)
+.. py:specialmethod:: __delattr__(attr)
 
 # sequence methods
 
-.. py:method:: __contains__(value)
+.. py:specialmethod:: __contains__(value)
 
-.. py:method:: __getitem__(item)
+.. py:specialmethod:: __getitem__(item)
 
-.. py:method:: __setitem__(item, value)
+.. py:specialmethod:: __setitem__(item, value)
 
-.. py:method:: __delitem__(item)
+.. py:specialmethod:: __delitem__(item)
 
-.. py:method:: __iter__()
+.. py:specialmethod:: __iter__()
 
-.. py:method:: __len__()
+.. py:specialmethod:: __len__()
 
-.. py:method:: __length_hint__()
+.. py:specialmethod:: __length_hint__()
 
-.. py:method:: __reversed__()
+.. py:specialmethod:: __reversed__()
 
 # unary operators (alphabetical)
 
-.. py:method:: __invert__()
+.. py:specialmethod:: __invert__()
 
-.. py:method:: __neg__()
+.. py:specialmethod:: __neg__()
 
-.. py:method:: __pos__()
+.. py:specialmethod:: __pos__()
 
 # binary operators (alphabetical)
 
-.. py:method:: __add__(other)
+.. py:specialmethod:: __add__(other)
 
-.. py:method:: __and__(other)
+.. py:specialmethod:: __and__(other)
 
-.. py:method:: __divmod__(other)
+.. py:specialmethod:: __divmod__(other)
 
-.. py:method:: __eq__(other)
+.. py:specialmethod:: __eq__(other)
 
-.. py:method:: __floordiv__(other)
+.. py:specialmethod:: __floordiv__(other)
 
-.. py:method:: __ge__(other)
+.. py:specialmethod:: __ge__(other)
 
-.. py:method:: __gt__(other)
+.. py:specialmethod:: __gt__(other)
 
-.. py:method:: __le__(other)
+.. py:specialmethod:: __le__(other)
 
-.. py:method:: __lshift__(other)
+.. py:specialmethod:: __lshift__(other)
 
-.. py:method:: __lt__(other)
+.. py:specialmethod:: __lt__(other)
 
-.. py:method:: __matmul__(other)
+.. py:specialmethod:: __matmul__(other)
 
-.. py:method:: __mod__(other)
+.. py:specialmethod:: __mod__(other)
 
-.. py:method:: __mul__(other)
+.. py:specialmethod:: __mul__(other)
 
-.. py:method:: __ne__(other)
+.. py:specialmethod:: __ne__(other)
 
-.. py:method:: __or__(other)
+.. py:specialmethod:: __or__(other)
 
-.. py:method:: __pow__(other)
+.. py:specialmethod:: __pow__(other)
 
-.. py:method:: __rshift__(other)
+.. py:specialmethod:: __rshift__(other)
 
-.. py:method:: __sub__(other)
+.. py:specialmethod:: __sub__(other)
 
-.. py:method:: __truediv__(other)
+.. py:specialmethod:: __truediv__(other)
 
-.. py:method:: __xor__(other)
+.. py:specialmethod:: __xor__(other)
 
 # other math
 
-.. py:method:: __abs__()
+.. py:specialmethod:: __abs__()
 
-.. py:method:: __ceil__()
+.. py:specialmethod:: __ceil__()
 
-.. py:method:: __floor__()
+.. py:specialmethod:: __floor__()
 
-.. py:method:: __round__(n)
+.. py:specialmethod:: __round__(n)
 
-.. py:method:: __trunc__()
+.. py:specialmethod:: __trunc__()

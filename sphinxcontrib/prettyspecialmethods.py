@@ -211,9 +211,66 @@ def show_special_methods(app, what, name, obj, skip, options):
         return False
 
 
+from sphinx.domains.python import PyMethod, py_sig_re
+from docutils.parsers.rst import directives
+from typing import Tuple
+
+
+class PySpecialMethod(PyMethod):
+    # option_spec = super().option_spec.copy()
+    # option_spec.update({
+    #     'selfparam': directives.unchanged_required,
+    # })
+
+    def handle_signature(self, sig: str, signode: SphinxNodes.desc_signature) -> Tuple[str, str]:
+        m = py_sig_re.match(sig)
+        if m is None:
+            raise ValueError
+        prefix, method_name, arglist, retann = m.groups()
+
+        if method_name not in SPECIAL_METHODS:
+            raise self.error(f'Unknown special method: {method_name}')
+
+        result = super().handle_signature(sig, signode)
+
+        sig_rewriter = SPECIAL_METHODS[method_name]
+        name_node = signode.next_node(SphinxNodes.desc_name)
+        parameters_node = signode.next_node(SphinxNodes.desc_parameterlist)
+
+        name_node.replace_self(sig_rewriter(name_node, parameters_node))
+        parameters_node.replace_self(())
+
+        return result
+
+
+from sphinx.ext.autodoc import MethodDocumenter
+from typing import Any
+
+
+class SpecialMethodDocumenter(MethodDocumenter):
+    directivetype = 'specialmethod'
+    member_order = MethodDocumenter.member_order - 1
+    priority = MethodDocumenter.priority + 1
+
+    @classmethod
+    def can_document_member(
+        cls,
+        member: Any,
+        membername: str,
+        isattr: bool,
+        parent: Any
+    ) -> bool:
+        return (
+            super().can_document_member(member, membername, isattr, parent)
+            and membername in SPECIAL_METHODS
+        )
+
+
 def setup(app):
     # type: (Sphinx) -> Dict[str, Any]
-    app.add_transform(PrettifySpecialMethods)
-    app.setup_extension('sphinx.ext.autodoc')
-    app.connect('autodoc-skip-member', show_special_methods)
+    # app.add_transform(PrettifySpecialMethods)
+    # app.setup_extension('sphinx.ext.autodoc')
+    # app.connect('autodoc-skip-member', show_special_methods)
+    app.registry.add_directive_to_domain('py', 'specialmethod', PySpecialMethod)
+    app.add_autodocumenter(SpecialMethodDocumenter)
     return {'version': __version__, 'parallel_read_safe': True}
