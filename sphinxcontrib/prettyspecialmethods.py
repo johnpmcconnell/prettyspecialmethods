@@ -248,6 +248,7 @@ from typing import Any
 
 
 class SpecialMethodDocumenter(MethodDocumenter):
+    objtype = 'specialmethod'
     directivetype = 'specialmethod'
     member_order = MethodDocumenter.member_order - 1
     priority = MethodDocumenter.priority + 1
